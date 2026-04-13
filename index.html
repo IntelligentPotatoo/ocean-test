@@ -72,7 +72,7 @@
             height: auto;
             border-radius: 10px;
             margin-bottom: 20px;
-            display: block;
+            display: none; /* 이미지가 로딩되기 전에는 숨겨둡니다 */
         }
         
         .result-title {
@@ -109,7 +109,7 @@
 
 <div class="container" id="result-container">
     <h1>테스트 결과</h1>
-    <img id="result-image" src="" alt="결과 이미지">
+    <img id="result-image" alt="결과 이미지">
     <div class="result-title" id="result-title"></div>
     <div class="result-desc" id="result-desc"></div>
     <button class="btn" style="margin-top: 20px; background-color: #00695c;" onclick="location.reload()">다시 테스트하기</button>
@@ -159,26 +159,27 @@
         }
     ];
 
+    // 현재 폴더 안에 있는 이미지를 찾도록 상대 경로(./)로 확실하게 지정
     const results = {
         navigator: {
             title: "1️⃣ 방향감각과 결단력의 소유자: [항해사]",
             desc: "<b>성향:</b> '망망대해에서도 길을 잃지 않는 인간 내비게이션!'<br><br><b>특징:</b> 목표가 정해지면 빠르게 판단하고 앞으로 나아가는 추진력이 있어요.<br><br><b>어울리는 능력:</b> 공간 지각 능력, 빠른 상황 판단력.",
-            image: "https://intelligentpotatoo.github.io/ocean-test/navi.png" 
+            image: "./navi.png" 
         },
         engineer: {
             title: "2️⃣ 꼼꼼함과 기민한 감각의 끝판왕: [기관사]",
             desc: "<b>성향:</b> '배의 모든 심박수를 체크하는 든든한 수호자!'<br><br><b>특징:</b> 작은 소음도 놓치지 않는 예민한 감각과 기계를 다루는 섬세한 손재주를 가졌어요.<br><br><b>어울리는 능력:</b> 관찰력, 분석적 사고, 기계 이해도.",
-            image: "https://intelligentpotatoo.github.io/ocean-test/engine.png"
+            image: "./engine.png"
         },
         vts: {
             title: "3️⃣ 명확한 소통과 상황 판단의 귀재: [해상교통관제사]",
             desc: "<b>성향:</b> '바다의 질서를 만드는 스마트한 지휘자!'<br><br><b>특징:</b> 복잡한 상황에서도 침착하게 정보를 전달하고, 남들에게 명확하게 설명하는 능력이 뛰어나요.<br><br><b>어울리는 능력:</b> 의사소통 능력, 멀티태스킹, 책임감.",
-            image: "https://intelligentpotatoo.github.io/ocean-test/vts.png"
+            image: "./vts.png"
         },
         pilot: {
             title: "4️⃣ 항해 능력과 리더십의 결정체: [도선사]",
             desc: "<b>성향:</b> '베테랑 중의 베테랑, 바다의 마스터!'<br><br><b>특징:</b> 가장 위험하고 어려운 순간에 키를 잡는 용기가 있으며, 팀을 이끄는 카리스마가 넘쳐요.<br><br><b>어울리는 능력:</b> 강력한 리더십, 위기 관리 능력.",
-            image: "https://intelligentpotatoo.github.io/ocean-test/pilot.png" 
+            image: "./pilot.png"
         }
     };
 
@@ -189,7 +190,8 @@
         document.getElementById('start-container').style.display = 'none';
         document.getElementById('question-container').style.display = 'block';
         
-        document.body.style.backgroundImage = "url('https://intelligentpotatoo.github.io/ocean-test/bg.png')";
+        // 배경 이미지도 상대 경로로 확실하게 연결
+        document.body.style.backgroundImage = "url('./bg.png?v=" + new Date().getTime() + "')";
         
         showQuestion();
     }
@@ -230,7 +232,11 @@
             }
         }
 
-        document.getElementById('result-image').src = results[finalResult].image;
+        const imgEl = document.getElementById('result-image');
+        // 시간값을 추가해 브라우저 캐시를 무력화하고, 이미지를 강제로 화면에 표시합니다.
+        imgEl.src = results[finalResult].image + "?v=" + new Date().getTime();
+        imgEl.style.display = "block";
+        
         document.getElementById('result-title').innerHTML = results[finalResult].title;
         document.getElementById('result-desc').innerHTML = results[finalResult].desc;
     }
