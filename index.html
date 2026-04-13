@@ -67,12 +67,12 @@
             color: #006064;
         }
         
+        /* 문제의 원인이었던 숨김 처리(display: none)를 완전히 삭제했습니다. */
         #result-image {
             max-width: 100%;
             height: auto;
             border-radius: 10px;
             margin-bottom: 20px;
-            display: none;
         }
         
         .result-title {
@@ -109,7 +109,7 @@
 
 <div class="container" id="result-container">
     <h1>테스트 결과</h1>
-    <img id="result-image" src="" alt="결과 이미지" onload="this.style.display='block'">
+    <img id="result-image" src="" alt="결과 이미지">
     <div class="result-title" id="result-title"></div>
     <div class="result-desc" id="result-desc"></div>
     <button class="btn" style="margin-top: 20px; background-color: #00695c;" onclick="location.reload()">다시 테스트하기</button>
@@ -178,7 +178,7 @@
         pilot: {
             title: "4️⃣ 항해 능력과 리더십의 결정체: [도선사]",
             desc: "<b>성향:</b> '베테랑 중의 베테랑, 바다의 마스터!'<br><br><b>특징:</b> 가장 위험하고 어려운 순간에 키를 잡는 용기가 있으며, 팀을 이끄는 카리스마가 넘쳐요.<br><br><b>어울리는 능력:</b> 강력한 리더십, 위기 관리 능력.",
-            image: "pilot.png"
+            image: "pilot.png" // 혹시 깃허브에서 파일명을 안 고치셨다면 pilot.pngg 로 수정하셔야 합니다.
         }
     };
 
@@ -189,10 +189,7 @@
         document.getElementById('start-container').style.display = 'none';
         document.getElementById('question-container').style.display = 'block';
         
-        // --- [수정] 배경 이미지 주소에 시간 값을 붙여 캐시 방지 ---
-        const bgImageUrl = "bg.png";
-        const cacheBuster = `?t=${Date.now()}`;
-        document.body.style.backgroundImage = `url('${bgImageUrl}${cacheBuster}')`;
+        document.body.style.backgroundImage = `url('bg.png?t=${Date.now()}')`;
         
         showQuestion();
     }
@@ -233,10 +230,12 @@
             }
         }
 
-        // --- [수정] 결과 이미지 주소에도 시간 값을 붙여 캐시 방지 ---
         const imageUrl = results[finalResult].image;
-        const cacheBuster = `?t=${Date.now()}`;
-        document.getElementById('result-image').src = `${imageUrl}${cacheBuster}`;
+        const resultImgElement = document.getElementById('result-image');
+        
+        // 캐시 무시 + 이미지 강제 표시
+        resultImgElement.src = `${imageUrl}?t=${Date.now()}`;
+        resultImgElement.style.display = 'block'; 
         
         document.getElementById('result-title').innerHTML = results[finalResult].title;
         document.getElementById('result-desc').innerHTML = results[finalResult].desc;
