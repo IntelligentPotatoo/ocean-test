@@ -67,12 +67,12 @@
             color: #006064;
         }
         
-        /* 문제의 원인이었던 숨김 처리(display: none)를 완전히 삭제했습니다. */
         #result-image {
             max-width: 100%;
             height: auto;
             border-radius: 10px;
             margin-bottom: 20px;
+            display: block;
         }
         
         .result-title {
@@ -163,22 +163,22 @@
         navigator: {
             title: "1️⃣ 방향감각과 결단력의 소유자: [항해사]",
             desc: "<b>성향:</b> '망망대해에서도 길을 잃지 않는 인간 내비게이션!'<br><br><b>특징:</b> 목표가 정해지면 빠르게 판단하고 앞으로 나아가는 추진력이 있어요.<br><br><b>어울리는 능력:</b> 공간 지각 능력, 빠른 상황 판단력.",
-            image: "navi.png" 
+            image: "https://intelligentpotatoo.github.io/ocean-test/navi.png" 
         },
         engineer: {
             title: "2️⃣ 꼼꼼함과 기민한 감각의 끝판왕: [기관사]",
             desc: "<b>성향:</b> '배의 모든 심박수를 체크하는 든든한 수호자!'<br><br><b>특징:</b> 작은 소음도 놓치지 않는 예민한 감각과 기계를 다루는 섬세한 손재주를 가졌어요.<br><br><b>어울리는 능력:</b> 관찰력, 분석적 사고, 기계 이해도.",
-            image: "engine.png"
+            image: "https://intelligentpotatoo.github.io/ocean-test/engine.png"
         },
         vts: {
             title: "3️⃣ 명확한 소통과 상황 판단의 귀재: [해상교통관제사]",
             desc: "<b>성향:</b> '바다의 질서를 만드는 스마트한 지휘자!'<br><br><b>특징:</b> 복잡한 상황에서도 침착하게 정보를 전달하고, 남들에게 명확하게 설명하는 능력이 뛰어나요.<br><br><b>어울리는 능력:</b> 의사소통 능력, 멀티태스킹, 책임감.",
-            image: "vts.png"
+            image: "https://intelligentpotatoo.github.io/ocean-test/vts.png"
         },
         pilot: {
             title: "4️⃣ 항해 능력과 리더십의 결정체: [도선사]",
             desc: "<b>성향:</b> '베테랑 중의 베테랑, 바다의 마스터!'<br><br><b>특징:</b> 가장 위험하고 어려운 순간에 키를 잡는 용기가 있으며, 팀을 이끄는 카리스마가 넘쳐요.<br><br><b>어울리는 능력:</b> 강력한 리더십, 위기 관리 능력.",
-            image: "pilot.png" // 혹시 깃허브에서 파일명을 안 고치셨다면 pilot.pngg 로 수정하셔야 합니다.
+            image: "https://intelligentpotatoo.github.io/ocean-test/pilot.png" 
         }
     };
 
@@ -189,7 +189,7 @@
         document.getElementById('start-container').style.display = 'none';
         document.getElementById('question-container').style.display = 'block';
         
-        document.body.style.backgroundImage = `url('bg.png?t=${Date.now()}')`;
+        document.body.style.backgroundImage = "url('https://intelligentpotatoo.github.io/ocean-test/bg.png')";
         
         showQuestion();
     }
@@ -230,13 +230,7 @@
             }
         }
 
-        const imageUrl = results[finalResult].image;
-        const resultImgElement = document.getElementById('result-image');
-        
-        // 캐시 무시 + 이미지 강제 표시
-        resultImgElement.src = `${imageUrl}?t=${Date.now()}`;
-        resultImgElement.style.display = 'block'; 
-        
+        document.getElementById('result-image').src = results[finalResult].image;
         document.getElementById('result-title').innerHTML = results[finalResult].title;
         document.getElementById('result-desc').innerHTML = results[finalResult].desc;
     }
