@@ -178,7 +178,7 @@
         pilot: {
             title: "4️⃣ 항해 능력과 리더십의 결정체: [도선사]",
             desc: "<b>성향:</b> '베테랑 중의 베테랑, 바다의 마스터!'<br><br><b>특징:</b> 가장 위험하고 어려운 순간에 키를 잡는 용기가 있으며, 팀을 이끄는 카리스마가 넘쳐요.<br><br><b>어울리는 능력:</b> 강력한 리더십, 위기 관리 능력.",
-            image: "pilot.pngg" // 깃허브에 올라간 파일명(pilot.pngg)과 동일하게 맞춤
+            image: "pilot.png"
         }
     };
 
@@ -189,8 +189,10 @@
         document.getElementById('start-container').style.display = 'none';
         document.getElementById('question-container').style.display = 'block';
         
-        // 깃허브에 올라간 배경 이미지(bg.png) 연결
-        document.body.style.backgroundImage = "url('bg.png')";
+        // --- [수정] 배경 이미지 주소에 시간 값을 붙여 캐시 방지 ---
+        const bgImageUrl = "bg.png";
+        const cacheBuster = `?t=${Date.now()}`;
+        document.body.style.backgroundImage = `url('${bgImageUrl}${cacheBuster}')`;
         
         showQuestion();
     }
@@ -231,7 +233,11 @@
             }
         }
 
-        document.getElementById('result-image').src = results[finalResult].image;
+        // --- [수정] 결과 이미지 주소에도 시간 값을 붙여 캐시 방지 ---
+        const imageUrl = results[finalResult].image;
+        const cacheBuster = `?t=${Date.now()}`;
+        document.getElementById('result-image').src = `${imageUrl}${cacheBuster}`;
+        
         document.getElementById('result-title').innerHTML = results[finalResult].title;
         document.getElementById('result-desc').innerHTML = results[finalResult].desc;
     }
