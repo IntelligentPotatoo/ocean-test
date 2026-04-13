@@ -14,7 +14,6 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            /* 기본 배경 설정 (전체 화면 배경 적용) */
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -22,7 +21,6 @@
         }
         
         .container {
-            /* 프레임 깨짐 방지를 위해 배경을 반투명 흰색으로 고정 */
             background-color: rgba(255, 255, 255, 0.95);
             padding: 30px;
             border-radius: 15px;
@@ -74,7 +72,7 @@
             height: auto;
             border-radius: 10px;
             margin-bottom: 20px;
-            display: none; /* 이미지가 로드되기 전 엑스박스 방지 */
+            display: none;
         }
         
         .result-title {
@@ -165,23 +163,22 @@
         navigator: {
             title: "1️⃣ 방향감각과 결단력의 소유자: [항해사]",
             desc: "<b>성향:</b> '망망대해에서도 길을 잃지 않는 인간 내비게이션!'<br><br><b>특징:</b> 목표가 정해지면 빠르게 판단하고 앞으로 나아가는 추진력이 있어요.<br><br><b>어울리는 능력:</b> 공간 지각 능력, 빠른 상황 판단력.",
-            // 텍스트가 없는 새로운 항해사 이미지(image_10.png)가 로컬에 없을 때를 대비한 임시 웹 링크
-            image: "https://dummyimage.com/600x400/0277bd/ffffff&text=Navigator+Image" 
+            image: "navi.png" 
         },
         engineer: {
             title: "2️⃣ 꼼꼼함과 기민한 감각의 끝판왕: [기관사]",
             desc: "<b>성향:</b> '배의 모든 심박수를 체크하는 든든한 수호자!'<br><br><b>특징:</b> 작은 소음도 놓치지 않는 예민한 감각과 기계를 다루는 섬세한 손재주를 가졌어요.<br><br><b>어울리는 능력:</b> 관찰력, 분석적 사고, 기계 이해도.",
-            image: "https://dummyimage.com/600x400/bf360c/ffffff&text=Engineer+Image"
+            image: "engine.png"
         },
         vts: {
             title: "3️⃣ 명확한 소통과 상황 판단의 귀재: [해상교통관제사]",
             desc: "<b>성향:</b> '바다의 질서를 만드는 스마트한 지휘자!'<br><br><b>특징:</b> 복잡한 상황에서도 침착하게 정보를 전달하고, 남들에게 명확하게 설명하는 능력이 뛰어나요.<br><br><b>어울리는 능력:</b> 의사소통 능력, 멀티태스킹, 책임감.",
-            image: "https://dummyimage.com/600x400/004d40/ffffff&text=VTS+Image"
+            image: "vts.png"
         },
         pilot: {
             title: "4️⃣ 항해 능력과 리더십의 결정체: [도선사]",
             desc: "<b>성향:</b> '베테랑 중의 베테랑, 바다의 마스터!'<br><br><b>특징:</b> 가장 위험하고 어려운 순간에 키를 잡는 용기가 있으며, 팀을 이끄는 카리스마가 넘쳐요.<br><br><b>어울리는 능력:</b> 강력한 리더십, 위기 관리 능력.",
-            image: "https://dummyimage.com/600x400/f57f17/ffffff&text=Pilot+Image"
+            image: "pilot.png"
         }
     };
 
@@ -192,8 +189,8 @@
         document.getElementById('start-container').style.display = 'none';
         document.getElementById('question-container').style.display = 'block';
         
-        // 문제 풀이 시작 시 배경 이미지 동적 변경 (임시 해양 배경 이미지 링크)
-        document.body.style.backgroundImage = "url('https://images.unsplash.com/photo-1551244072-5d12893278ab?auto=format&fit=crop&w=1920&q=80')";
+        // 문제 풀이 시작 시 배경을 bg.png로 설정
+        document.body.style.backgroundImage = "url('bg.png')";
         
         showQuestion();
     }
@@ -223,7 +220,7 @@
         document.getElementById('question-container').style.display = 'none';
         document.getElementById('result-container').style.display = 'block';
 
-        // 결과창 진입 시 배경 초기화
+        // 결과창 진입 시 배경 지우기
         document.body.style.backgroundImage = "none";
 
         let maxScore = 0;
