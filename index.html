@@ -5,242 +5,488 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>위기 탈출! 나는 어떤 바다 전문가일까?</title>
     <style>
-        body {
-            font-family: 'Malgun Gothic', sans-serif;
-            background-color: #e0f7fa;
-            color: #004d40;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            transition: background-image 0.5s ease-in-out;
+        :root {
+            --question-bg: none;
         }
-        
-        .container {
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
+
+        * {
             box-sizing: border-box;
         }
 
+        body {
+            font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 24px 0;
+            background: linear-gradient(180deg, #dff6ff 0%, #c9edf8 50%, #eefcff 100%);
+            color: #004d40;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.96);
+            padding: 28px;
+            border-radius: 18px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
+            max-width: 760px;
+            width: 92%;
+            text-align: center;
+            border: 1px solid rgba(2, 119, 189, 0.12);
+        }
+
+        #start-container {
+            display: block;
+        }
+
+        #question-container {
+            display: none;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88)),
+                var(--question-bg);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        #result-container {
+            display: none;
+        }
+
         h1 {
-            font-size: 24px;
+            font-size: clamp(24px, 4.2vw, 34px);
             color: #0277bd;
-            margin-bottom: 20px;
+            margin: 0 0 18px;
+            line-height: 1.35;
             word-break: keep-all;
+        }
+
+        #question-text {
+            font-size: clamp(20px, 3.2vw, 28px);
+            line-height: 1.6;
+            margin: 0 0 22px;
+            word-break: keep-all;
+        }
+
+        .intro-text {
+            font-size: 17px;
+            line-height: 1.7;
+            margin: 0 0 22px;
+            word-break: keep-all;
+        }
+
+        .progress {
+            display: inline-block;
+            margin-bottom: 18px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: rgba(2, 136, 209, 0.12);
+            color: #006064;
+            font-weight: 700;
         }
 
         .btn {
-            background-color: #0288d1;
-            color: white;
+            appearance: none;
             border: none;
-            padding: 15px 20px;
-            margin: 10px 0;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
             width: 100%;
+            padding: 15px 18px;
             font-size: 16px;
-            transition: background-color 0.3s;
+            line-height: 1.6;
+            transition: transform 0.15s ease, background-color 0.2s ease, box-shadow 0.2s ease;
             word-break: keep-all;
-            line-height: 1.4;
+            white-space: normal;
         }
 
         .btn:hover {
-            background-color: #01579b;
+            transform: translateY(-1px);
         }
 
-        #question-container, #result-container {
-            display: none;
+        .btn:active {
+            transform: translateY(0);
         }
-        
-        .progress {
-            margin-bottom: 20px;
-            font-weight: bold;
-            color: #006064;
+
+        .primary-btn {
+            background-color: #0288d1;
+            color: white;
+            font-weight: 700;
         }
-        
+
+        .primary-btn:hover {
+            background-color: #0277bd;
+        }
+
+        .choice-btn {
+            background-color: rgba(255, 255, 255, 0.95);
+            color: #063b4b;
+            text-align: left;
+            margin: 10px 0;
+            border: 2px solid rgba(2, 136, 209, 0.18);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .choice-btn:hover {
+            background-color: #eef9ff;
+            border-color: rgba(2, 136, 209, 0.38);
+        }
+
+        .restart-btn {
+            margin-top: 22px;
+            background-color: #00695c;
+            color: white;
+            font-weight: 700;
+        }
+
+        .restart-btn:hover {
+            background-color: #005247;
+        }
+
         #result-image {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            display: none; /* 이미지가 로딩되기 전에는 숨겨둡니다 */
+            width: 100%;
+            max-width: 420px;
+            max-height: 320px;
+            object-fit: contain;
+            border-radius: 14px;
+            margin: 8px auto 10px;
+            display: none;
+            background: #ffffff;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
         }
-        
+
         .result-title {
-            font-size: 22px;
-            font-weight: bold;
+            font-size: 24px;
+            font-weight: 800;
             color: #d84315;
-            margin-bottom: 15px;
+            margin: 16px 0 14px;
+            line-height: 1.5;
+            word-break: keep-all;
         }
 
         .result-desc {
             font-size: 16px;
-            line-height: 1.6;
+            line-height: 1.8;
             text-align: left;
-            background-color: #f1f8e9;
-            padding: 15px;
-            border-radius: 8px;
+            background-color: #f7fcff;
+            padding: 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(2, 136, 209, 0.12);
+        }
+
+        #error-box {
+            display: none;
+            margin-top: 12px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            background: #fff3e0;
+            color: #8a3b12;
+            text-align: left;
+            line-height: 1.6;
+            font-size: 14px;
+            border: 1px solid #ffd7b1;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 22px 16px;
+                width: 94%;
+            }
+
+            .btn {
+                font-size: 15px;
+                padding: 14px 15px;
+            }
+
+            .result-title {
+                font-size: 21px;
+            }
+
+            .result-desc {
+                font-size: 15px;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="container" id="start-container">
-    <h1>🌊 위기 탈출!<br>나는 어떤 바다 전문가일까?</h1>
-    <p>내 안에 숨겨진 바다 DNA를 찾아보자!<br>상황에 맞는 선택지를 골라주세요.</p>
-    <button class="btn" onclick="startTest()">테스트 시작하기</button>
-</div>
+    <div class="container" id="start-container">
+        <h1>🌊 위기 탈출!<br>나는 어떤 바다 전문가일까?</h1>
+        <p class="intro-text">
+            내 안에 숨겨진 바다 DNA를 찾아보자!<br>
+            상황에 맞는 선택지를 골라주세요.
+        </p>
+        <button class="btn primary-btn" onclick="startTest()">테스트 시작하기</button>
+    </div>
 
-<div class="container" id="question-container">
-    <div class="progress" id="progress-text">문제 1 / 8</div>
-    <h2 id="question-text" style="font-size: 18px; line-height: 1.4; margin-bottom: 20px;"></h2>
-    <button class="btn" id="btn-a" onclick="selectAnswer('A')"></button>
-    <button class="btn" id="btn-b" onclick="selectAnswer('B')"></button>
-</div>
+    <div class="container" id="question-container">
+        <div class="progress" id="progress-text">문제 1 / 8</div>
+        <h2 id="question-text"></h2>
+        <button class="btn choice-btn" id="btn-a" onclick="selectAnswer('A')"></button>
+        <button class="btn choice-btn" id="btn-b" onclick="selectAnswer('B')"></button>
+    </div>
 
-<div class="container" id="result-container">
-    <h1>테스트 결과</h1>
-    <img id="result-image" alt="결과 이미지">
-    <div class="result-title" id="result-title"></div>
-    <div class="result-desc" id="result-desc"></div>
-    <button class="btn" style="margin-top: 20px; background-color: #00695c;" onclick="location.reload()">다시 테스트하기</button>
-</div>
+    <div class="container" id="result-container">
+        <h1>테스트 결과</h1>
+        <img id="result-image" alt="직업 결과 이미지">
+        <div id="error-box"></div>
+        <div class="result-title" id="result-title"></div>
+        <div class="result-desc" id="result-desc"></div>
+        <button class="btn restart-btn" onclick="restartTest()">다시 테스트하기</button>
+    </div>
 
-<script>
-    const questions = [
-        {
-            q: "당신은 드디어 실습선에 탑승했습니다! 가장 먼저 하고 싶은 일은?",
-            a: { text: "(A) 넓은 바다가 한눈에 보이는 조타실에서 망원경 보기", type: ['navigator', 'pilot'] },
-            b: { text: "(B) 배의 심장인 거대한 엔진실에 내려가 장비 구경하기", type: ['engineer', 'vts'] }
-        },
-        {
-            q: "항해 중 안개가 너무 짙어 앞이 보이지 않습니다. 이때 당신의 행동은?",
-            a: { text: "(A) '내 감각을 믿어!' 지도와 나침반을 보며 직접 경로를 결정한다.", type: ['navigator'] },
-            b: { text: "(B) '데이터가 우선이야.' 레이더와 주변 배들의 위치를 정밀하게 분석한다.", type: ['vts'] }
-        },
-        {
-            q: "갑자기 배 한쪽에서 '삐-!' 하고 경고음이 울립니다. 당신의 첫 반응은?",
-            a: { text: "(A) '어디가 아픈 거니?' 즉시 소리가 나는 곳으로 달려가 기계를 점검한다.", type: ['engineer'] },
-            b: { text: "(B) '모두 당황하지 마!' 승무원들에게 각자 위치를 사수하라고 명령한다.", type: ['pilot'] }
-        },
-        {
-            q: "우리 배가 아주 좁고 암초가 많은 구역을 통과해야 합니다. 당신이라면?",
-            a: { text: "(A) '내가 직접 키를 잡지!' 위험한 구간을 멋지게 통과하는 리더가 된다.", type: ['pilot'] },
-            b: { text: "(B) '천천히 가더라도 정확하게!' 수심과 속도를 계산하며 안전한 길을 찾는다.", type: ['navigator'] }
-        },
-        {
-            q: "폭풍우가 몰아치는 밤, 배가 크게 흔들립니다. 가장 중요하게 생각하는 것은?",
-            a: { text: "(A) '배가 가라앉으면 안 돼!' 엔진 출력과 배의 평형을 유지하는 일", type: ['engineer'] },
-            b: { text: "(B) '다른 배와 부딪히면 안 돼!' 무전기로 주변 선박들과 계속 소통하는 일", type: ['vts'] }
-        },
-        {
-            q: "관제소에서 '경로를 10도 우측으로 변경하세요'라는 지시가 왔습니다.",
-            a: { text: "(A) '네, 알겠습니다!' 지시사항을 정확하게 기록하고 즉시 수행한다.", type: ['vts'] },
-            b: { text: "(B) '왜죠? 지금 상황에선 직진이 빠른데?' 상황을 다시 한번 판단해 본다.", type: ['navigator'] }
-        },
-        {
-            q: "드디어 목적지인 항구 근처에 도착했습니다. 마지막까지 놓치지 않는 것은?",
-            a: { text: "(A) 거대한 배를 부두에 완벽하게 주차시키는 '주차의 달인' 포스", type: ['pilot'] },
-            b: { text: "(B) 항구 내 수많은 배의 움직임을 한눈에 파악하는 '매의 눈'", type: ['vts'] }
-        },
-        {
-            q: "긴 항해를 마친 당신, 어떤 칭찬을 들을 때 가장 기쁜가요?",
-            a: { text: "(A) '네 덕분에 우리 팀이 하나로 뭉쳐서 올 수 있었어!'", type: ['pilot', 'navigator'] },
-            b: { text: "(B) '네 덕분에 기계 고장 한 번 없이 안전하게 도착했어!'", type: ['engineer', 'vts'] }
+    <script>
+        const ASSET_VERSION = Date.now();
+
+        // GitHub Pages 주소가 /repo/, /repo, /repo/index.html 중 어떤 형태여도
+        // 이미지 경로를 안정적으로 계산하기 위한 함수
+        function getBaseUrl() {
+            const origin = window.location.origin;
+            let path = window.location.pathname;
+
+            if (path.endsWith("/")) {
+                return origin + path;
+            }
+
+            const lastSegment = path.substring(path.lastIndexOf("/") + 1);
+
+            if (lastSegment.includes(".")) {
+                return origin + path.substring(0, path.lastIndexOf("/") + 1);
+            }
+
+            return origin + path + "/";
         }
-    ];
 
-    // 현재 폴더 안에 있는 이미지를 찾도록 상대 경로(./)로 확실하게 지정
-    const results = {
-        navigator: {
-            title: "1️⃣ 방향감각과 결단력의 소유자: [항해사]",
-            desc: "<b>성향:</b> '망망대해에서도 길을 잃지 않는 인간 내비게이션!'<br><br><b>특징:</b> 목표가 정해지면 빠르게 판단하고 앞으로 나아가는 추진력이 있어요.<br><br><b>어울리는 능력:</b> 공간 지각 능력, 빠른 상황 판단력.",
-            image: "./navi.png" 
-        },
-        engineer: {
-            title: "2️⃣ 꼼꼼함과 기민한 감각의 끝판왕: [기관사]",
-            desc: "<b>성향:</b> '배의 모든 심박수를 체크하는 든든한 수호자!'<br><br><b>특징:</b> 작은 소음도 놓치지 않는 예민한 감각과 기계를 다루는 섬세한 손재주를 가졌어요.<br><br><b>어울리는 능력:</b> 관찰력, 분석적 사고, 기계 이해도.",
-            image: "./engine.png"
-        },
-        vts: {
-            title: "3️⃣ 명확한 소통과 상황 판단의 귀재: [해상교통관제사]",
-            desc: "<b>성향:</b> '바다의 질서를 만드는 스마트한 지휘자!'<br><br><b>특징:</b> 복잡한 상황에서도 침착하게 정보를 전달하고, 남들에게 명확하게 설명하는 능력이 뛰어나요.<br><br><b>어울리는 능력:</b> 의사소통 능력, 멀티태스킹, 책임감.",
-            image: "./vts.png"
-        },
-        pilot: {
-            title: "4️⃣ 항해 능력과 리더십의 결정체: [도선사]",
-            desc: "<b>성향:</b> '베테랑 중의 베테랑, 바다의 마스터!'<br><br><b>특징:</b> 가장 위험하고 어려운 순간에 키를 잡는 용기가 있으며, 팀을 이끄는 카리스마가 넘쳐요.<br><br><b>어울리는 능력:</b> 강력한 리더십, 위기 관리 능력.",
-            image: "./pilot.png"
+        const BASE_URL = getBaseUrl();
+
+        function asset(fileName) {
+            const url = new URL(fileName, BASE_URL);
+            url.searchParams.set("v", ASSET_VERSION);
+            return url.href;
         }
-    };
 
-    let currentQuestion = 0;
-    let scores = { navigator: 0, engineer: 0, vts: 0, pilot: 0 };
+        // 질문 프레임 배경을 bg.png로 설정
+        document.documentElement.style.setProperty("--question-bg", `url("${asset("bg.png")}")`);
 
-    function startTest() {
-        document.getElementById('start-container').style.display = 'none';
-        document.getElementById('question-container').style.display = 'block';
-        
-        // 배경 이미지도 상대 경로로 확실하게 연결
-        document.body.style.backgroundImage = "url('./bg.png?v=" + new Date().getTime() + "')";
-        
-        showQuestion();
-    }
+        const questions = [
+            {
+                q: `당신은 드디어 실습선에 탑승했습니다! 가장 먼저 하고 싶은 일은?`,
+                a: {
+                    text: `(A) 넓은 바다가 한눈에 보이는 조타실에서 망원경 보기 (항해사/도선사)`,
+                    type: ["navigator", "pilot"]
+                },
+                b: {
+                    text: `(B) 배의 심장인 거대한 엔진실에 내려가 장비 구경하기 (기관사/관제사)`,
+                    type: ["engineer", "vts"]
+                }
+            },
+            {
+                q: `항해 중 안개가 너무 짙어 앞이 보이지 않습니다. 이때 당신의 행동은?`,
+                a: {
+                    text: `(A) "내 감각을 믿어!" 지도와 나침반을 보며 직접 경로를 결정한다. (항해사)`,
+                    type: ["navigator"]
+                },
+                b: {
+                    text: `(B) "데이터가 우선이야." 레이더와 주변 배들의 위치를 정밀하게 분석한다. (관제사)`,
+                    type: ["vts"]
+                }
+            },
+            {
+                q: `갑자기 배 한쪽에서 '삐-!' 하고 경고음이 울립니다. 당신의 첫 반응은?`,
+                a: {
+                    text: `(A) "어디가 아픈 거니?" 즉시 소리가 나는 곳으로 달려가 기계를 점검한다. (기관사)`,
+                    type: ["engineer"]
+                },
+                b: {
+                    text: `(B) "모두 당황하지 마!" 승무원들에게 각자 위치를 사수하라고 명령한다. (도선사)`,
+                    type: ["pilot"]
+                }
+            },
+            {
+                q: `우리 배가 아주 좁고 암초가 많은 구역을 통과해야 합니다. 당신이라면?`,
+                a: {
+                    text: `(A) "내가 직접 키를 잡지!" 위험한 구간을 멋지게 통과하는 리더가 된다. (도선사)`,
+                    type: ["pilot"]
+                },
+                b: {
+                    text: `(B) "천천히 가더라도 정확하게!" 수심과 속도를 계산하며 안전한 길을 찾는다. (항해사)`,
+                    type: ["navigator"]
+                }
+            },
+            {
+                q: `폭풍우가 몰아치는 밤, 배가 크게 흔들립니다. 가장 중요하게 생각하는 것은?`,
+                a: {
+                    text: `(A) "배가 가라앉으면 안 돼!" 엔진 출력과 배의 평형을 유지하는 일 (기관사)`,
+                    type: ["engineer"]
+                },
+                b: {
+                    text: `(B) "다른 배와 부딪히면 안 돼!" 무전기로 주변 선박들과 계속 소통하는 일 (관제사)`,
+                    type: ["vts"]
+                }
+            },
+            {
+                q: `관제소에서 "경로를 10도 우측으로 변경하세요"라는 지시가 왔습니다.`,
+                a: {
+                    text: `(A) "네, 알겠습니다!" 지시사항을 정확하게 기록하고 즉시 수행한다. (관제사)`,
+                    type: ["vts"]
+                },
+                b: {
+                    text: `(B) "왜죠? 지금 상황에선 직진이 빠른데?" 상황을 다시 한번 판단해 본다. (항해사)`,
+                    type: ["navigator"]
+                }
+            },
+            {
+                q: `드디어 목적지인 항구 근처에 도착했습니다. 마지막까지 놓치지 않는 것은?`,
+                a: {
+                    text: `(A) 거대한 배를 부두에 완벽하게 주차시키는 '주차의 달인' 포스 (도선사)`,
+                    type: ["pilot"]
+                },
+                b: {
+                    text: `(B) 항구 내 수많은 배의 움직임을 한눈에 파악하는 '매의 눈' (관제사)`,
+                    type: ["vts"]
+                }
+            },
+            {
+                q: `긴 항해를 마친 당신, 어떤 칭찬을 들을 때 가장 기쁜가요?`,
+                a: {
+                    text: `(A) "네 덕분에 우리 팀이 하나로 뭉쳐서 올 수 있었어!" (도선사/항해사)`,
+                    type: ["pilot", "navigator"]
+                },
+                b: {
+                    text: `(B) "네 덕분에 기계 고장 한 번 없이 안전하게 도착했어!" (기관사/관제사)`,
+                    type: ["engineer", "vts"]
+                }
+            }
+        ];
 
-    function showQuestion() {
-        document.getElementById('progress-text').innerText = `문제 ${currentQuestion + 1} / ${questions.length}`;
-        document.getElementById('question-text').innerText = questions[currentQuestion].q;
-        document.getElementById('btn-a').innerText = questions[currentQuestion].a.text;
-        document.getElementById('btn-b').innerText = questions[currentQuestion].b.text;
-    }
+        const results = {
+            navigator: {
+                title: `1️⃣ 방향감각과 결단력의 소유자: [항해사]`,
+                desc: `<b>성향:</b> "망망대해에서도 길을 잃지 않는 인간 내비게이션!"<br><br><b>특징:</b> 목표가 정해지면 빠르게 판단하고 앞으로 나아가는 추진력이 있어요.<br><br><b>어울리는 능력:</b> 공간 지각 능력, 빠른 상황 판단력.`,
+                file: "navi.png"
+            },
+            engineer: {
+                title: `2️⃣ 꼼꼼함과 기민한 감각의 끝판왕: [기관사]`,
+                desc: `<b>성향:</b> "배의 모든 심박수를 체크하는 든든한 수호자!"<br><br><b>특징:</b> 작은 소음도 놓치지 않는 예민한 감각과 기계를 다루는 섬세한 손재주를 가졌어요.<br><br><b>어울리는 능력:</b> 관찰력, 분석적 사고, 기계 이해도.`,
+                file: "engine.png"
+            },
+            vts: {
+                title: `3️⃣ 명확한 소통과 상황 판단의 귀재: [해상교통관제사]`,
+                desc: `<b>성향:</b> "바다의 질서를 만드는 스마트한 지휘자!"<br><br><b>특징:</b> 복잡한 상황에서도 침착하게 정보를 전달하고, 남들에게 명확하게 설명하는 능력이 뛰어나요.<br><br><b>어울리는 능력:</b> 의사소통 능력, 멀티태스킹, 책임감.`,
+                file: "vts.png"
+            },
+            pilot: {
+                title: `4️⃣ 항해 능력과 리더십의 결정체: [도선사]`,
+                desc: `<b>성향:</b> "베테랑 중의 베테랑, 바다의 마스터!"<br><br><b>특징:</b> 가장 위험하고 어려운 순간에 키를 잡는 용기가 있으며, 팀을 이끄는 카리스마가 넘쳐요.<br><br><b>어울리는 능력:</b> 강력한 리더십, 위기 관리 능력.`,
+                file: "pilot.png"
+            }
+        };
 
-    function selectAnswer(choice) {
-        let selectedTypes = questions[currentQuestion][choice.toLowerCase()].type;
-        selectedTypes.forEach(type => {
-            scores[type]++;
-        });
+        let currentQuestion = 0;
+        let scores = {
+            navigator: 0,
+            engineer: 0,
+            vts: 0,
+            pilot: 0
+        };
 
-        currentQuestion++;
-        if (currentQuestion < questions.length) {
+        function startTest() {
+            document.getElementById("start-container").style.display = "none";
+            document.getElementById("question-container").style.display = "block";
+            document.getElementById("result-container").style.display = "none";
+
+            currentQuestion = 0;
+            scores = {
+                navigator: 0,
+                engineer: 0,
+                vts: 0,
+                pilot: 0
+            };
+
             showQuestion();
-        } else {
-            showResult();
+            window.scrollTo({ top: 0, behavior: "smooth" });
         }
-    }
 
-    function showResult() {
-        document.getElementById('question-container').style.display = 'none';
-        document.getElementById('result-container').style.display = 'block';
+        function showQuestion() {
+            const question = questions[currentQuestion];
 
-        document.body.style.backgroundImage = "none";
+            document.getElementById("progress-text").textContent = `문제 ${currentQuestion + 1} / ${questions.length}`;
+            document.getElementById("question-text").textContent = question.q;
+            document.getElementById("btn-a").textContent = question.a.text;
+            document.getElementById("btn-b").textContent = question.b.text;
+        }
 
-        let maxScore = 0;
-        let finalResult = '';
-        for (let type in scores) {
-            if (scores[type] > maxScore) {
-                maxScore = scores[type];
-                finalResult = type;
+        function selectAnswer(choice) {
+            const selectedTypes = questions[currentQuestion][choice.toLowerCase()].type;
+
+            selectedTypes.forEach((type) => {
+                scores[type] += 1;
+            });
+
+            currentQuestion += 1;
+
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResult();
             }
         }
 
-        const imgEl = document.getElementById('result-image');
-        // 시간값을 추가해 브라우저 캐시를 무력화하고, 이미지를 강제로 화면에 표시합니다.
-        imgEl.src = results[finalResult].image + "?v=" + new Date().getTime();
-        imgEl.style.display = "block";
-        
-        document.getElementById('result-title').innerHTML = results[finalResult].title;
-        document.getElementById('result-desc').innerHTML = results[finalResult].desc;
-    }
-</script>
+        function getFinalResult() {
+            const priority = ["navigator", "engineer", "vts", "pilot"];
+            let finalResult = priority[0];
+            let maxScore = -1;
+
+            priority.forEach((type) => {
+                if (scores[type] > maxScore) {
+                    maxScore = scores[type];
+                    finalResult = type;
+                }
+            });
+
+            return finalResult;
+        }
+
+        function showResult() {
+            document.getElementById("question-container").style.display = "none";
+            document.getElementById("result-container").style.display = "block";
+
+            const finalResult = getFinalResult();
+            const result = results[finalResult];
+            const imgEl = document.getElementById("result-image");
+            const errorBox = document.getElementById("error-box");
+
+            document.getElementById("result-title").innerHTML = result.title;
+            document.getElementById("result-desc").innerHTML = result.desc;
+
+            errorBox.style.display = "none";
+            errorBox.innerHTML = "";
+            imgEl.style.display = "none";
+            imgEl.alt = result.title;
+
+            imgEl.onload = function () {
+                imgEl.style.display = "block";
+                errorBox.style.display = "none";
+            };
+
+            imgEl.onerror = function () {
+                imgEl.style.display = "none";
+                errorBox.style.display = "block";
+                errorBox.innerHTML = `
+                    <b>결과 이미지를 불러오지 못했어요.</b><br>
+                    <b>${result.file}</b> 파일이 <b>index.html</b>과 같은 위치에 있는지 확인해 주세요.
+                `;
+            };
+
+            imgEl.src = asset(result.file);
+
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        function restartTest() {
+            window.location.reload();
+        }
+    </script>
 
 </body>
 </html>
